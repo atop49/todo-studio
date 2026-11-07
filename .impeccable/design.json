@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 2,
+  "design": "../../DESIGN.md",
+  "generatedAt": "2026-11-06T13:28:00+08:00",
+  "mode": "operate",
+  "world": "剪辑时间线工作台 — 暖纸白台面 + 墨黑墨水 + 信号橙的剪辑工作台（2026-11-06 由暗色翻转为亮色）",
+  "tokens": {
+    "color": ["ink #111111 文字", "paper #f5f1e8 地色", "muted", "accent", "card #ece6d9", "hairline rgba(17,17,17,0.14)", "hairline-strong rgba(17,17,17,0.28)"],
+    "type": ["display:YouSheBiaoTiHei", "sans:Geist", "mono:JetBrains Mono"],
+    "radius": "none",
+    "motion": ["todo-enter:240ms", "todo-exit:220ms", "readout-flash:420ms", "rate-bar:500ms"]
+  },
+  "accentSemantics": ["完成勾选填充", "添加主按钮", "逾期警示", "HI 优先级点"],
+  "review": {
+    "disposition": "ship",
+    "reviewedAt": "2026-11-06",
+    "evidence": [".impeccable/review/desktop-light.png", ".impeccable/review/desktop.png", ".impeccable/review/mobile.png"],
+    "notes": "Inline degraded review（无 subagent）。matrix 全 match；mobile 筛选栏换行为 acceptable adaptation。"
+  }
+}

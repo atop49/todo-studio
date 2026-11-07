@@ -1,0 +1,203 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "YouSheBiaoTiHei";
+  src: url("./assets/YouSheBiaoTiHei.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --ink: #111111;
+  --paper: #f5f1e8;
+  --muted: #8c877d;
+  --accent: #ff4d00;
+  /* 亮色面层：地 = 暖纸白，面层卡片比地深半档（墨黑同源暖灰） */
+  --card: #ece6d9;
+  /* 发丝线用墨黑 alpha（原来是纸白 alpha） */
+  --hairline: rgba(17, 17, 17, 0.14);
+  --hairline-strong: rgba(17, 17, 17, 0.28);
+  --font-display: "YouSheBiaoTiHei", Impact, sans-serif;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-card: var(--card);
+  --color-hairline: var(--hairline);
+  --font-sans: "Geist", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-display: var(--font-display);
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    background-color: var(--paper);
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--accent);
+    color: var(--ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  ::placeholder {
+    color: var(--muted);
+    opacity: 0.6;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: none;
+    opacity: 0.55;
+    cursor: pointer;
+  }
+}
+
+/* 浏览器表面：滚动条与选区从色板取色（亮色：墨黑 alpha） */
+@layer base {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(17, 17, 17, 0.22) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(17, 17, 17, 0.18);
+    border: 3px solid var(--paper);
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(17, 17, 17, 0.3);
+  }
+}
+
+/* —— 组件原语：胶片工作台的发丝线语言 —— */
+
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* 原生控件暗色化：下拉、日期 */
+.field {
+  appearance: none;
+  background-color: transparent;
+  border: 1px solid var(--hairline);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease;
+}
+
+.field:hover {
+  border-color: var(--hairline-strong);
+}
+
+.field:focus {
+  outline: none;
+  border-color: rgba(255, 77, 0, 0.55);
+}
+
+.field::placeholder {
+  color: var(--muted);
+}
+
+select.field {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%238c877d' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  padding-right: 2rem;
+}
+
+select.field option {
+  background-color: var(--paper);
+  color: var(--ink);
+}
+
+/* 任务行的进出场：新增淡入下滑、删除右划淡出、完成时整体降暗 */
+@keyframes todo-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes todo-exit {
+  to {
+    opacity: 0;
+    transform: translateX(28px);
+  }
+}
+
+.todo-enter {
+  animation: todo-enter 240ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.todo-exit {
+  animation: todo-exit 220ms cubic-bezier(0.4, 0, 1, 1) both;
+  pointer-events: none;
+}
+
+/* 时间码闪格：统计条里的完成率在数值变化时闪一下 */
+@keyframes readout-flash {
+  0% {
+    color: var(--accent);
+  }
+  100% {
+    color: var(--ink);
+  }
+}
+
+.readout-flash {
+  animation: readout-flash 420ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .todo-enter,
+  .todo-exit,
+  .readout-flash {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
